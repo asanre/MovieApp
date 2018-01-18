@@ -10,6 +10,9 @@ import retrofit2.http.QueryMap;
 
 public interface ApiService {
 
-    @GET("top_rated")
+    @GET("movie/top_rated")
     Single<ServiceMoviesRepo> getTopRateMovies(@QueryMap Map<String, String> options);
+
+    @GET("search/movie")
+    Single<ServiceMoviesRepo> searchMovie(@QueryMap Map<String, String> options);
 }
