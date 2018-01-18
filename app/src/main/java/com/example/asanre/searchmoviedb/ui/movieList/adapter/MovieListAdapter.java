@@ -26,6 +26,11 @@ public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.View
     private final AdapterOnItemClickListener listener;
     private List<IMovie> movies;
 
+    public MovieListAdapter(Context context) {
+
+        this(context, null);
+    }
+
     public MovieListAdapter(Context context, AdapterOnItemClickListener listener) {
 
         this.listener = listener;
@@ -86,7 +91,9 @@ public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.View
 
     private void setItemClickedListener(View view, final IMovie movie) {
 
-        view.setOnClickListener(view1 -> listener.onItemClick(movie));
+        if (listener != null && view != null) {
+            view.setOnClickListener(view1 -> listener.onItemClick(movie));
+        }
     }
 
     /**
@@ -107,6 +114,8 @@ public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.View
         TextView tvTitle;
         @BindView(R.id.tv_year)
         TextView tvYear;
+        @BindView(R.id.tv_overview)
+        TextView tvOverView;
 
         public ViewHolder(View itemView) {
 
