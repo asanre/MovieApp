@@ -1,6 +1,10 @@
 package com.example.asanre.searchmoviedb.ui.movieList.presenter;
 
+import android.text.TextUtils;
+
 import com.example.asanre.searchmoviedb.domain.useCase.GetTopMovies;
+import com.example.asanre.searchmoviedb.domain.useCase.SearchMovieUseCase;
+import com.example.asanre.searchmoviedb.domain.useCase.params.SearchMovieParams;
 import com.example.asanre.searchmoviedb.ui.base.BasePresenter;
 import com.example.asanre.searchmoviedb.ui.base.BaseView;
 import com.example.asanre.searchmoviedb.ui.model.IMovie;
@@ -17,13 +21,16 @@ public class MovieListPresenter extends BasePresenter {
 
     private final MovieListView view;
     private GetTopMovies getTopMovies;
+    private SearchMovieUseCase searchMovie;
     private int currentPage;
     private boolean isLoadingOnDemand;
+    private String movieQuery;
 
     public MovieListPresenter(MovieListView view) {
 
         this.view = view;
         getTopMovies = new GetTopMovies();
+        searchMovie = new SearchMovieUseCase();
         currentPage = 1;
         isLoadingOnDemand = false;
     }
@@ -49,11 +56,52 @@ public class MovieListPresenter extends BasePresenter {
     public void fetchMoreMovies() {
 
         isLoadingOnDemand = true;
-        fetchMovies(++currentPage);
+        int page = ++currentPage;
+
+        if (TextUtils.isEmpty(movieQuery)) {
+            fetchMovies(page);
+        } else {
+            loadSimilarMovie(movieQuery, page);
+        }
     }
 
     public void searchMovie(String query) {
 
+        currentPage = 1;
+        movieQuery = query;
+        loadSimilarMovie(query, currentPage);
+    }
+
+    private void loadSimilarMovie(String query, int page) {
+
+        if (!TextUtils.isEmpty(query)) {
+            searchMovie.execute(new SearchMovieParams(query, page))
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new SingleObserver<List<IMovie>>() {
+
+                        @Override
+                        public void onSubscribe(Disposable d) {
+
+                        }
+
+                        @Override
+                        public void onSuccess(List<IMovie> iMovies) {
+
+                            if (isViewAlive()) {
+                                successHandler(iMovies);
+                            }
+                        }
+
+                        @Override
+                        public void onError(Throwable error) {
+
+                            if (isViewAlive()) {
+                                handlerError(error.getMessage());
+                            }
+                        }
+                    });
+        }
     }
 
     private void fetchMovies(int page) {
@@ -73,7 +121,7 @@ public class MovieListPresenter extends BasePresenter {
                     public void onSuccess(List<IMovie> iMovies) {
 
                         if (isViewAlive()) {
-                            onGetTopMovieSuccess(iMovies);
+                            successHandler(iMovies);
                         }
                     }
 
@@ -88,7 +136,7 @@ public class MovieListPresenter extends BasePresenter {
 
     }
 
-    void onGetTopMovieSuccess(List<IMovie> response) {
+    void successHandler(List<IMovie> response) {
 
         view.setAdapterData(response);
         view.hideLoading();
