@@ -28,6 +28,12 @@ public class MovieListPresenter extends BasePresenter {
         isLoadingOnDemand = false;
     }
 
+    @Override
+    public BaseView getView() {
+
+        return view;
+    }
+
     /**
      * fetch top movies page 1
      */
@@ -36,10 +42,14 @@ public class MovieListPresenter extends BasePresenter {
         fetchMovies(currentPage);
     }
 
-    @Override
-    public BaseView getView() {
+    /**
+     * fetch more movies increasing page
+     * number according to pagination
+     */
+    public void fetchMoreMovies() {
 
-        return view;
+        isLoadingOnDemand = true;
+        fetchMovies(++currentPage);
     }
 
     private void fetchMovies(int page) {

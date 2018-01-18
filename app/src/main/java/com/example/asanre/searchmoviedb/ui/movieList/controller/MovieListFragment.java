@@ -111,8 +111,7 @@ public class MovieListFragment extends BaseFragment implements MovieListView {
 
                 if (RecyclerUtils.pageEndlessDetect(recyclerView)) {
                     isLoading = true;
-                    // TODO: 18/1/18 fetch more movies
-                    //                    presenter.fetchMoreMovies();
+                    presenter.fetchMoreMovies();
                 }
             }
         });
