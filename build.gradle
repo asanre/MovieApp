@@ -37,4 +37,5 @@ ext {
     rxJava = '2.1.7'
     rxAndroid = '2.0.1'
     rxAdapter = '2.3.0'
+    glideVersion = '4.3.1'
 }
