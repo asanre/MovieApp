@@ -1,9 +1,11 @@
-package com.example.asanre.searchmoviedb;
+package com.example.asanre.searchmoviedb.ui.movieList.controller;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
-public class MainActivity extends AppCompatActivity {
+import com.example.asanre.searchmoviedb.R;
+
+public class MovieListActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
