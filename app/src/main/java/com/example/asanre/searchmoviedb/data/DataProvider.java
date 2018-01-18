@@ -46,7 +46,26 @@ public class DataProvider implements DataSource {
     @Override
     public Single<List<MovieEntity>> getMovies(int page) {
 
-        return Single.zip(retrieveMoviesAndSaveOnSuccess(page).onErrorResumeNext(throwable -> {
+        Single<ServiceMoviesRepo> response = apiService.getTopRateMovies(
+                getDefaultQueryParams(page));
+
+        return handleDataSource(page, response);
+    }
+
+    @Override
+    public Single<List<MovieEntity>> searchMovies(String movie, int page) {
+
+        Map<String, String> params = getDefaultQueryParams(page);
+        params.put("query", movie);
+        Single<ServiceMoviesRepo> response = apiService.searchMovie(params);
+
+        return handleDataSource(page, response);
+    }
+
+    private Single<List<MovieEntity>> handleDataSource(int page,
+                                                       Single<ServiceMoviesRepo> response) {
+
+        return Single.zip(retrieveMoviesAndSaveOnSuccess(response).onErrorResumeNext(throwable -> {
 
             if (throwable instanceof UnknownHostException) {
                 return Single.just(new ArrayList<>());
@@ -61,16 +80,12 @@ public class DataProvider implements DataSource {
         });
     }
 
-    private Single<List<MovieEntity>> retrieveMoviesAndSaveOnSuccess(int page) {
+    private Single<List<MovieEntity>> retrieveMoviesAndSaveOnSuccess(
+            Single<ServiceMoviesRepo> response) {
 
-        return fetchMovies(page).map(
+        return response.map(
                 serviceMoviesRepo -> DataMapper.mapToEntity(serviceMoviesRepo.getMovies(),
                         serviceMoviesRepo.getPage())).doOnSuccess(this::saveOnDB);
-    }
-
-    private Single<ServiceMoviesRepo> fetchMovies(int page) {
-
-        return apiService.getTopRateMovies(getQueryParams(page));
     }
 
     private void saveOnDB(List<MovieEntity> movieEntities) {
@@ -79,7 +94,7 @@ public class DataProvider implements DataSource {
         movieDao.save(movies);
     }
 
-    private Map<String, String> getQueryParams(int pageNumber) {
+    private Map<String, String> getDefaultQueryParams(int pageNumber) {
 
         String page = String.valueOf(pageNumber);
         Map<String, String> data = new HashMap<>();

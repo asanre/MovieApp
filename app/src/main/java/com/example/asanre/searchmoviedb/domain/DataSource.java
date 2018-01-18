@@ -13,4 +13,6 @@ public interface DataSource {
      * @return list of movies
      */
     Single<List<MovieEntity>> getMovies(int page);
+
+    Single<List<MovieEntity>> searchMovies(String movie, int page);
 }
