@@ -8,4 +8,27 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="NoActionBar" parent="AppTheme">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="TextStyle">
+        <item name="android:textColor">@color/primaryTextColor</item>
+    </style>
+
+    <style name="TextStyle.Home">
+        <item name="android:layout_marginTop">20dp</item>
+        <item name="android:textSize">18sp</item>
+    </style>
+
+    <style name="TextStyle.H1">
+        <item name="android:textSize">20sp</item>
+    </style>
+
+    <style name="TextStyle.H4">
+        <item name="android:textSize">15sp</item>
+        <item name="android:lineSpacingMultiplier">1.30</item>
+    </style>
+
 </resources>
