@@ -4,18 +4,19 @@ import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.Index;
 import android.arch.persistence.room.PrimaryKey;
 
-import com.google.gson.annotations.SerializedName;
-
 @Entity(tableName = "movie", indices = {@Index(value = "page")})
 public class MovieEntity {
 
     @PrimaryKey()
     private int id;
     private String title;
-    @SerializedName("poster_path")
     private String posterUrl;
     private String overview;
     private int page;
+
+    public MovieEntity() {
+
+    }
 
     public MovieEntity(int id, String title, String posterUrl, String overview, int page) {
 

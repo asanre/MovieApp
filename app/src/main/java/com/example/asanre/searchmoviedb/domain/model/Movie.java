@@ -13,6 +13,10 @@ public class Movie implements IMovie, Parcelable {
     private String overview;
     private String year;
 
+    public Movie() {
+
+    }
+
     public Movie(int id, String title, String posterUrl, String overview, String year) {
 
         this.id = id;
@@ -52,6 +56,31 @@ public class Movie implements IMovie, Parcelable {
         return year;
     }
 
+    public void setId(int id) {
+
+        this.id = id;
+    }
+
+    public void setTitle(String title) {
+
+        this.title = title;
+    }
+
+    public void setPosterUrl(String posterUrl) {
+
+        this.posterUrl = posterUrl;
+    }
+
+    public void setOverview(String overview) {
+
+        this.overview = overview;
+    }
+
+    public void setYear(String year) {
+
+        this.year = year;
+    }
+
     @Override
     public int describeContents() {
 
@@ -66,10 +95,6 @@ public class Movie implements IMovie, Parcelable {
         dest.writeString(this.posterUrl);
         dest.writeString(this.overview);
         dest.writeString(this.year);
-    }
-
-    public Movie() {
-
     }
 
     protected Movie(Parcel in) {
