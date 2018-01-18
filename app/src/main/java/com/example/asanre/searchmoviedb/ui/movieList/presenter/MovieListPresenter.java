@@ -52,6 +52,10 @@ public class MovieListPresenter extends BasePresenter {
         fetchMovies(++currentPage);
     }
 
+    public void searchMovie(String query) {
+
+    }
+
     private void fetchMovies(int page) {
 
         view.showLoading();

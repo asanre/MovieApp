@@ -6,6 +6,10 @@ import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SearchView;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
 
@@ -20,7 +24,8 @@ import java.util.List;
 
 import butterknife.BindView;
 
-public class MovieListFragment extends BaseFragment implements MovieListView {
+public class MovieListFragment extends BaseFragment
+        implements MovieListView, SearchView.OnQueryTextListener {
 
     @BindView(R.id.cl_container)
     CoordinatorLayout clContainer;
@@ -44,6 +49,15 @@ public class MovieListFragment extends BaseFragment implements MovieListView {
 
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+
+        inflater.inflate(R.menu.search_menu, menu);
+        MenuItem search = menu.findItem(R.id.search);
+        SearchView searchView = (SearchView) search.getActionView();
+        searchView.setOnQueryTextListener(this);
     }
 
     @Override
@@ -86,6 +100,19 @@ public class MovieListFragment extends BaseFragment implements MovieListView {
     public void notifyFinishLoading() {
 
         isLoading = false;
+    }
+
+    @Override
+    public boolean onQueryTextSubmit(String query) {
+
+        return false;
+    }
+
+    @Override
+    public boolean onQueryTextChange(String query) {
+
+        presenter.searchMovie(query);
+        return false;
     }
 
     private void setupRecycler(MovieListAdapter adapter) {
