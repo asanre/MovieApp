@@ -1,6 +1,6 @@
 package com.example.asanre.searchmoviedb.data.network;
 
-import com.example.asanre.searchmoviedb.data.model.MoviesRepo;
+import com.example.asanre.searchmoviedb.data.model.ServiceMoviesRepo;
 
 import java.util.Map;
 
@@ -11,5 +11,5 @@ import retrofit2.http.QueryMap;
 public interface ApiService {
 
     @GET("top_rated")
-    Single<MoviesRepo> getTopRateMovies(@QueryMap Map<String, String> options);
+    Single<ServiceMoviesRepo> getTopRateMovies(@QueryMap Map<String, String> options);
 }

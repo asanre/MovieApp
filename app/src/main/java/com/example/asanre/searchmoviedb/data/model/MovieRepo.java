@@ -1,29 +1,21 @@
 package com.example.asanre.searchmoviedb.data.model;
 
-import android.arch.persistence.room.Entity;
-import android.arch.persistence.room.Index;
-import android.arch.persistence.room.PrimaryKey;
-
 import com.google.gson.annotations.SerializedName;
 
-@Entity(tableName = "movie", indices = {@Index(value = "page")})
-public class MovieEntity {
+public class MovieRepo {
 
-    @PrimaryKey()
     private int id;
     private String title;
     @SerializedName("poster_path")
     private String posterUrl;
     private String overview;
-    private int page;
 
-    public MovieEntity(int id, String title, String posterUrl, String overview, int page) {
+    public MovieRepo(int id, String title, String posterUrl, String overview) {
 
         this.id = id;
         this.title = title;
         this.posterUrl = posterUrl;
         this.overview = overview;
-        this.page = page;
     }
 
     public int getId() {
@@ -64,15 +56,5 @@ public class MovieEntity {
     public void setOverview(String overview) {
 
         this.overview = overview;
-    }
-
-    public int getPage() {
-
-        return page;
-    }
-
-    public void setPage(int page) {
-
-        this.page = page;
     }
 }

@@ -4,21 +4,22 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
-public class MoviesRepo {
+public class ServiceMoviesRepo {
+
     private int page;
     @SerializedName("total_results")
     private int totalResults;
     @SerializedName("total_pages")
     private int totalPages;
     @SerializedName("results")
-    private List<MovieEntity> movies;
+    private List<MovieRepo> movies;
 
-    public MoviesRepo(List<MovieEntity> movies) {
+    public ServiceMoviesRepo(List<MovieRepo> movies) {
 
         this.movies = movies;
     }
 
-    public List<MovieEntity> getMovies() {
+    public List<MovieRepo> getMovies() {
 
         return movies;
     }
@@ -37,5 +38,4 @@ public class MoviesRepo {
 
         return totalPages;
     }
-
 }
