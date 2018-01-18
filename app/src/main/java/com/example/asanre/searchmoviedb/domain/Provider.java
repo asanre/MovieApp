@@ -3,6 +3,7 @@ package com.example.asanre.searchmoviedb.domain;
 import android.content.Context;
 
 import com.example.asanre.searchmoviedb.data.DataProvider;
+import com.example.asanre.searchmoviedb.domain.useCase.params.SearchMovieParams;
 import com.example.asanre.searchmoviedb.ui.model.IMovie;
 
 import java.util.List;
@@ -34,5 +35,10 @@ public class Provider {
     public Single<List<IMovie>> getTopMovies(int page) {
 
         return dataSource.getMovies(page).map(DomainMapper::map);
+    }
+
+    public Single<List<IMovie>> searchMovie(SearchMovieParams params) {
+
+        return dataSource.searchMovies(params.getMovie(), params.getPage()).map(DomainMapper::map);
     }
 }
