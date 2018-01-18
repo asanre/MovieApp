@@ -1,5 +1,7 @@
 package com.example.asanre.searchmoviedb.domain;
 
+import android.content.Context;
+
 import com.example.asanre.searchmoviedb.data.DataProvider;
 import com.example.asanre.searchmoviedb.ui.model.IMovie;
 
@@ -22,6 +24,11 @@ public class Provider {
             }
         }
         return sInstance;
+    }
+
+    public void init(Context context) {
+
+        this.dataSource = DataProvider.getInstance(context);
     }
 
     public Single<List<IMovie>> getTopMovies(int page) {
