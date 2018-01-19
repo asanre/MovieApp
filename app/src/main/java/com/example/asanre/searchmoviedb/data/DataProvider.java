@@ -15,9 +15,15 @@ import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import io.reactivex.Single;
+
+import static com.example.asanre.searchmoviedb.domain.Constant.API_KEY;
+import static com.example.asanre.searchmoviedb.domain.Constant.LANGUAGE;
+import static com.example.asanre.searchmoviedb.domain.Constant.PAGE;
+import static com.example.asanre.searchmoviedb.domain.Constant.QUERY;
 
 public class DataProvider implements DataSource {
 
@@ -56,7 +62,7 @@ public class DataProvider implements DataSource {
     public Single<List<MovieEntity>> searchMovies(String movie, int page) {
 
         Map<String, String> params = getDefaultQueryParams(page);
-        params.put("query", movie);
+        params.put(QUERY, movie);
         Single<ServiceMoviesRepo> response = apiService.searchMovie(params);
 
         return handleDataSource(page, response);
@@ -96,11 +102,13 @@ public class DataProvider implements DataSource {
 
     private Map<String, String> getDefaultQueryParams(int pageNumber) {
 
+        String locale = Locale.getDefault() != null ? Locale.getDefault().toString() : "es";
+
         String page = String.valueOf(pageNumber);
         Map<String, String> data = new HashMap<>();
-        data.put("page", page);
-        data.put("language", "es");
-        data.put("api_key", BuildConfig.API_KEY);
+        data.put(PAGE, page);
+        data.put(LANGUAGE, locale);
+        data.put(API_KEY, BuildConfig.API_KEY);
 
         return data;
     }
