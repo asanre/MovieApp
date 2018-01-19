@@ -9,13 +9,16 @@ public class MovieRepo {
     @SerializedName("poster_path")
     private String posterUrl;
     private String overview;
+    @SerializedName("release_date")
+    private String date;
 
-    public MovieRepo(int id, String title, String posterUrl, String overview) {
+    public MovieRepo(int id, String title, String posterUrl, String overview, String date) {
 
         this.id = id;
         this.title = title;
         this.posterUrl = posterUrl;
         this.overview = overview;
+        this.date = date;
     }
 
     public int getId() {
@@ -56,5 +59,15 @@ public class MovieRepo {
     public void setOverview(String overview) {
 
         this.overview = overview;
+    }
+
+    public String getDate() {
+
+        return date;
+    }
+
+    public void setDate(String date) {
+
+        this.date = date;
     }
 }

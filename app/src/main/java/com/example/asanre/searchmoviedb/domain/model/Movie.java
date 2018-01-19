@@ -11,19 +11,19 @@ public class Movie implements IMovie, Parcelable {
     private String title;
     private String posterUrl;
     private String overview;
-    private String year;
+    private String releaseYear;
 
     public Movie() {
 
     }
 
-    public Movie(int id, String title, String posterUrl, String overview, String year) {
+    public Movie(int id, String title, String posterUrl, String overview, String releaseYear) {
 
         this.id = id;
         this.title = title;
         this.posterUrl = posterUrl;
         this.overview = overview;
-        this.year = year;
+        this.releaseYear = releaseYear;
     }
 
     @Override
@@ -53,7 +53,7 @@ public class Movie implements IMovie, Parcelable {
     @Override
     public String getReleaseYear() {
 
-        return year;
+        return releaseYear;
     }
 
     public void setId(int id) {
@@ -76,9 +76,9 @@ public class Movie implements IMovie, Parcelable {
         this.overview = overview;
     }
 
-    public void setYear(String year) {
+    public void setReleaseYear(String releaseYear) {
 
-        this.year = year;
+        this.releaseYear = releaseYear;
     }
 
     @Override
@@ -94,7 +94,7 @@ public class Movie implements IMovie, Parcelable {
         dest.writeString(this.title);
         dest.writeString(this.posterUrl);
         dest.writeString(this.overview);
-        dest.writeString(this.year);
+        dest.writeString(this.releaseYear);
     }
 
     protected Movie(Parcel in) {
@@ -103,7 +103,7 @@ public class Movie implements IMovie, Parcelable {
         this.title = in.readString();
         this.posterUrl = in.readString();
         this.overview = in.readString();
-        this.year = in.readString();
+        this.releaseYear = in.readString();
     }
 
     public static final Creator<Movie> CREATOR = new Creator<Movie>() {

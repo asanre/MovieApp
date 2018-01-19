@@ -19,7 +19,6 @@ public class DataMapper {
             movieEntity.setPage(page);
             movieEntities.add(movieEntity);
         }
-
         return movieEntities;
     }
 }

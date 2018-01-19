@@ -12,18 +12,21 @@ public class MovieEntity {
     private String title;
     private String posterUrl;
     private String overview;
+    private String date;
     private int page;
 
     public MovieEntity() {
 
     }
 
-    public MovieEntity(int id, String title, String posterUrl, String overview, int page) {
+    public MovieEntity(int id, String title, String posterUrl, String overview, String date,
+                       int page) {
 
         this.id = id;
         this.title = title;
         this.posterUrl = posterUrl;
         this.overview = overview;
+        this.date = date;
         this.page = page;
     }
 
@@ -75,5 +78,15 @@ public class MovieEntity {
     public void setPage(int page) {
 
         this.page = page;
+    }
+
+    public String getDate() {
+
+        return date;
+    }
+
+    public void setDate(String date) {
+
+        this.date = date;
     }
 }
