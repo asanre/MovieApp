@@ -22,7 +22,6 @@ public class MovieListPresenter extends BasePresenter {
     private GetTopMovies getTopMovies;
     private SearchMovieUseCase searchMovie;
     private int currentPage;
-    private boolean isLoadingOnDemand;
     private String movieQuery;
 
     public MovieListPresenter(MovieListView view) {
@@ -31,7 +30,7 @@ public class MovieListPresenter extends BasePresenter {
         getTopMovies = new GetTopMovies();
         searchMovie = new SearchMovieUseCase();
         currentPage = 1;
-        isLoadingOnDemand = false;
+        movieQuery = "";
     }
 
     @Override
@@ -54,7 +53,6 @@ public class MovieListPresenter extends BasePresenter {
      */
     public void fetchMoreMovies() {
 
-        isLoadingOnDemand = true;
         int page = ++currentPage;
 
         if (TextUtils.isEmpty(movieQuery)) {
@@ -137,10 +135,7 @@ public class MovieListPresenter extends BasePresenter {
 
         view.setAdapterData(response);
         view.hideLoading();
-
-        if (isLoadingOnDemand) {
-            view.notifyFinishLoading();
-        }
+        view.notifyFinishLoading();
     }
 
     void handlerError(String errorMessage) {
