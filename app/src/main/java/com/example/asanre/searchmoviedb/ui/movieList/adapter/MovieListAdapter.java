@@ -93,6 +93,8 @@ public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.View
         setImage(holder.image, context, currentMovie.getImageUrl());
 
         holder.tvTitle.setText(currentMovie.getTitle());
+        holder.tvYear.setText(currentMovie.getReleaseYear());
+        holder.tvOverView.setText(currentMovie.getOverView());
     }
 
     private void setImage(ImageView imageView, Context context, String url) {
