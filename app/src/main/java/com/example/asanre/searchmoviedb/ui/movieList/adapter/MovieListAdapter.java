@@ -77,6 +77,17 @@ public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.View
         notifyDataSetChanged();
     }
 
+    public void clear() {
+
+        if (movies == null) {
+            return;
+        }
+
+        int numMovies = movies.size();
+        movies.clear();
+        notifyItemRangeRemoved(0, numMovies);
+    }
+
     private void bindViews(ViewHolder holder, IMovie currentMovie) {
 
         setImage(holder.image, context, currentMovie.getImageUrl());

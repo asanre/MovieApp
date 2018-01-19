@@ -103,6 +103,20 @@ public class MovieListFragment extends BaseFragment
     }
 
     @Override
+    public void clear() {
+
+        recyclerView.smoothScrollToPosition(0);
+        adapter.clear();
+    }
+
+    @Override
+    public void onDestroy() {
+
+        super.onDestroy();
+        presenter.dispose();
+    }
+
+    @Override
     public boolean onQueryTextSubmit(String query) {
 
         return false;

@@ -10,4 +10,6 @@ public interface MovieListView extends BaseView {
     void setAdapterData(List<IMovie> movies);
 
     void notifyFinishLoading();
+
+    void clear();
 }

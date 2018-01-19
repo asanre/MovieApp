@@ -12,9 +12,8 @@ import com.example.asanre.searchmoviedb.ui.movieList.controller.MovieListView;
 
 import java.util.List;
 
-import io.reactivex.SingleObserver;
 import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.disposables.Disposable;
+import io.reactivex.observers.DisposableSingleObserver;
 import io.reactivex.schedulers.Schedulers;
 
 public class MovieListPresenter extends BasePresenter {
@@ -67,55 +66,27 @@ public class MovieListPresenter extends BasePresenter {
 
     public void searchMovie(String query) {
 
-        currentPage = 1;
         movieQuery = query;
-        loadSimilarMovie(query, currentPage);
+        if (!TextUtils.isEmpty(query)) {
+            prepareSearch();
+            loadSimilarMovie(query, currentPage);
+        }
+    }
+
+    private void prepareSearch() {
+
+        currentPage = 1;
+        view.clear();
+        clear();
     }
 
     private void loadSimilarMovie(String query, int page) {
 
-        if (!TextUtils.isEmpty(query)) {
-            searchMovie.execute(new SearchMovieParams(query, page))
-                    .subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(new SingleObserver<List<IMovie>>() {
-
-                        @Override
-                        public void onSubscribe(Disposable d) {
-
-                        }
-
-                        @Override
-                        public void onSuccess(List<IMovie> iMovies) {
-
-                            if (isViewAlive()) {
-                                successHandler(iMovies);
-                            }
-                        }
-
-                        @Override
-                        public void onError(Throwable error) {
-
-                            if (isViewAlive()) {
-                                handlerError(error.getMessage());
-                            }
-                        }
-                    });
-        }
-    }
-
-    private void fetchMovies(int page) {
-
         view.showLoading();
-        getTopMovies.execute(page)
+        addDisposable(searchMovie.execute(new SearchMovieParams(query, page))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new SingleObserver<List<IMovie>>() {
-
-                    @Override
-                    public void onSubscribe(Disposable d) {
-
-                    }
+                .subscribeWith(new DisposableSingleObserver<List<IMovie>>() {
 
                     @Override
                     public void onSuccess(List<IMovie> iMovies) {
@@ -132,7 +103,33 @@ public class MovieListPresenter extends BasePresenter {
                             handlerError(error.getMessage());
                         }
                     }
-                });
+                }));
+    }
+
+    private void fetchMovies(int page) {
+
+        view.showLoading();
+        addDisposable(getTopMovies.execute(page)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeWith(new DisposableSingleObserver<List<IMovie>>() {
+
+                    @Override
+                    public void onSuccess(List<IMovie> iMovies) {
+
+                        if (isViewAlive()) {
+                            successHandler(iMovies);
+                        }
+                    }
+
+                    @Override
+                    public void onError(Throwable error) {
+
+                        if (isViewAlive()) {
+                            handlerError(error.getMessage());
+                        }
+                    }
+                }));
 
     }
 
